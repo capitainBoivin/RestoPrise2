@@ -1,0 +1,20 @@
+* { padding : 0px;
+	margin : 0px;
+	}
+
+header {
+	width:100%;
+
+}
+
+#login {
+	width:50%;
+	float:right;
+}
+#titre{
+	float:left;
+	width:50%;
+}
+.class {
+	clear:both;
+}
