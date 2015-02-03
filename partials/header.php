@@ -17,6 +17,7 @@
 				<form action="index.php" method="post">
 					<button type="submit" name="deconnexion">Deconnexion</button>
 				</form>
+				<a href="client.php?modif=true">Modifier</a>
 			<?php
 			}
 			else {
