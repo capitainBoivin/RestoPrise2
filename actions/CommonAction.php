@@ -1,5 +1,5 @@
 <?php
-	require_once("actions/DB/ConnectionAction.php");
+	require_once("actions/DB/CommonConnection.php");
 	session_start();
 
 
@@ -17,8 +17,7 @@
 		public function execute() {
 			if(isset($_POST["entrer"]))
 			{		
-					$this->result = ConnectionAction::loginUser($_POST["name"],$_POST["pwd"]);
-					var_dump($this->result);
+					$this->result = CommonConnection::loginUser($_POST["name"],$_POST["pwd"]);
 					if($this->result)
 					{
 						$_SESSION["client_id"] = $this->result[0]["ID_CLIENT"];

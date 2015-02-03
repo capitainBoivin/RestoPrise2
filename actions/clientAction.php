@@ -1,6 +1,6 @@
 <?php
 	require_once("CommonAction.php");
-	require_once("actions/DB/ConnectionAction.php");
+	require_once("actions/DB/ClientConnection.php");
 	class ClientAction extends CommonAction{
 		public $client;
 		public function __construct() {
@@ -34,7 +34,7 @@
 				if(!empty($_POST["mdp"])){
 					$mdp = $_POST["mdp"];
 				}
-				ConnectionAction::insertClient($nom,$prenom,$adresse,$tel,$dateNaissance,$courriel,$mdp);
+				ClientConnection::insertClient($nom,$prenom,$adresse,$tel,$dateNaissance,$courriel,$mdp);
 				header("Location:client.php?confirmation=true");
 			}
 		}

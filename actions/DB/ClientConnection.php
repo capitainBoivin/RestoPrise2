@@ -2,17 +2,8 @@
 	require_once("actions/CommonAction.php");
 	require_once("Connection.php");
 
-	class ConnectionAction{
+	class ClientConnection{
 		private static $connection;
-
-		// public static function getProduits() {
-		// 	$connection = Connection::getConnection();
-		// 	$statement = $connection->prepare("SELECT * FROM INVENTAIRE");
-		// 	$statement->setFetchMode(PDO::FETCH_ASSOC);
-		// 	$statement->execute();
-
-		// 	$info = $statement->fetchAll();
-		// 	return $info;
 
 		public static function insertClient($nom,$prenom,$adresse,$tel,$dateNaissance,$courriel,$mdp) {	
 			$connection = Connection::getConnection();
