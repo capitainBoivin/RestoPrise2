@@ -105,9 +105,30 @@ require_once("partials/header.php");
 				<div class="label">
 					<label for="dateNaissance"> Date de naissance (AAAA-MM-JJ) : </label>
 				</div>
-				<div class="champ">
-					<input id="dateNaissance" name="dateNaissance" size="35"/>
-				</div>
+					<select class="combo" name="annee">
+					<?php 
+						for($i=1940; $i<2000; $i++)
+						{	
+							echo "<option value=".$i.">".$i."</option>";
+						}	
+					 ?>
+					</select>
+					<select class="combo" name="mois">
+					<?php 
+						for($i=1; $i<13; $i++)
+						{	
+							echo "<option value=".$i.">".$i."</option>";
+						}	
+					 ?>
+					</select>
+					<select class="combo" name="jour">
+					<?php 
+						for($i=1; $i<32; $i++)
+						{	
+							echo "<option value=".$i.">".$i."</option>";
+						}	
+					 ?>
+					</select>
 				<div class="label">
 					<label for="courriel"> Courriel : </label>
 				</div>

@@ -19,7 +19,8 @@
 				$statement->execute();
 			}
 			catch(PDOException $e) {
-    			$e->getMessage();
+    			//var_dump($e->getMessage());
+    			echo mysql_errno();
 				}
 		}
 		public static function insertCompte($id) {	
@@ -30,8 +31,8 @@
 				$statement->execute();
 			}
 			catch(PDOException $e) {
-    			$e->getMessage();
-				}
+    			var_dump($e->getMessage());
+    		}
 		}
 		//Modifier les infos dun client dans la BD
 		public static function modifClient($id,$adresse,$tel,$mdp){
@@ -56,6 +57,18 @@
 		 	$statement->execute();
 
 		 	$info = $statement->fetchAll();
+		 	return $info;
+		}
+
+		//Verifier si le courriel existe deja dans la BD
+		public static function verifCourriel($courriel){
+			$connection = Connection::getConnection();
+			$statement = $connection->prepare("SELECT * FROM CLIENT WHERE COURRIEL = ?");
+			$statement->bindParam(1, $courriel);
+		 	$statement->setFetchMode(PDO::FETCH_ASSOC);
+		 	$statement->execute();
+
+		 	$info = $statement->fetch();
 		 	return $info;
 		}
 	}

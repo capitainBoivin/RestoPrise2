@@ -30,8 +30,8 @@
 				if(!empty($_POST["tel"])){
 					$tel = $_POST["tel"];
 				}
-				if(!empty($_POST["dateNaissance"])){
-					$dateNaissance = $_POST["dateNaissance"];
+				if(!empty($_POST["annee"])){
+					$dateNaissance = $_POST["annee"]."-".$_POST["mois"]."-".$_POST["jour"];
 				}
 				if(!empty($_POST["courriel"])){
 					$courriel = $_POST["courriel"];
