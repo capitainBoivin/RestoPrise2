@@ -52,6 +52,12 @@ require_once("partials/header.php");
 					</form>
 				<?php }
 				else
+				if (isset($_GET["courriel"])) {
+				 ?>
+				 <div > * Ce courriel a déjà été utilisé *
+				</div>
+				<?php }
+				else
 				if (isset($_GET["confirmation"])) {
 				 ?>
 				<div > * Voici vos informations de compte *

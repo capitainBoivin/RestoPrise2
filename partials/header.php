@@ -49,5 +49,7 @@
 		<ul>
 			<li><a href="index.php">Accueil</a></li>
 			<li><a href="client.php">Nouveau Client</a></li>
+			<li><a href="commande.php"> Cliquez ici pour commander </a></li>
+			<li><a href="restaurateur.php">Restaurateurs, cliquez ici </a></li>
 		</ul>
 	</div>
