@@ -56,4 +56,20 @@
 		 	$info = $statement->fetchAll();
 		 	return $info;
 		}
+
+	//Suppression d'un restaurateur
+		public static function supprimerRestaurateur($id){
+			echo "ici";
+			$connection = Connection::getConnection();
+			$statement = $connection->prepare("DELETE FROM RESTAURATEUR WHERE ID_RESTAURATEUR = ?");
+			$statement->bindParam(1, $id);
+		 	$statement->setFetchMode(PDO::FETCH_ASSOC);
+		 	$statement->execute();
+		 	try{
+				$statement->execute();
+			}
+			catch(PDOException $e) {
+    			var_dump($e->getMessage());
+				}
+		}
 	}

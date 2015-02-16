@@ -55,10 +55,18 @@
 				}
 			}
 
-			// Si le bouton ajouter un restaurateur a été pressé
+			// Si le bouton supprimer un restaurateur a été pressé
 			if (isset($_POST["bSupprimerR"]))
 			{  
-				header("Location:restaurateur.php?supp=true?confirmationSupp=true");
+				header("Location:restaurateur.php?supp=true&confirmationSupp=".$_POST["restaurateurid"]);
+			}
+			
+			// Si le bouton de confirmation de la suppression a ete presser
+			if (isset($_POST["bConfirmerSupp"]))
+			{  
+				$idRestaurateur = $_POST["bConfirmerSupp"];
+				RestaurateurConnection::SupprimerRestaurateur($idRestaurateur);
+				header("Location:restaurateur.php?suppExec=true");
 			}
 		}
 	}

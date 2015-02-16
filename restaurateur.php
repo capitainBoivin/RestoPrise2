@@ -69,9 +69,25 @@ require_once("partials/header.php");
 					<button type="submit" id="bAjoutR" name="bAjoutR">Ajoutez!</button>
 				</form>
 			</div>
-		<?php 
-		} else if ((isset($_GET["supp"]) && isset($_GET["confirmationSupp=true"]))){
+		 <?php 
+		} if (isset($_GET["supp"])){
 		 ?>
+		 <div id="gererRestaurateur">
+		 	<form action="restaurateur.php" method="post">
+				<select class="combo" name="restaurateurid">
+				<?php 
+					for($i=0; $i<count($action->restaurateurs); $i++)
+					{	
+						echo "<option value=".$action->restaurateurs[$i]["ID_RESTAURATEUR"].">".$action->restaurateurs[$i]["PRENOM"]." ".$action->restaurateurs[$i]["NOM"]."</option>";
+					}	
+				 ?>
+				</select>
+				<button type="submit" id="bSupprimerR" name="bSupprimerR">Supprimer!</button>
+			</form>
+		</div>
+		<?php 
+			if (isset($_GET["confirmationSupp"])){
+			 ?>
 		 <div>
 		 	<form action="restaurateur.php" method="post">
 				<div class="label">
@@ -86,28 +102,18 @@ require_once("partials/header.php");
 				<div class="champ">
 					<input type="password" id="pwd" name="pwd" />
 				</div>
-				<button type="submit" name="entrer">Confirmer la supression</button>
+				<button type="submit" value="<?php echo $_GET["confirmationSupp"] ?>" name="bConfirmerSupp">Confirmer la supression</button>
 			</form>
 		 </div>
-		 <div id="gererRestaurateur">
-		 	<form action="restaurateur.php" method="post">
-				<select class="combo" name="resto">
-				<?php 
-					for($i=0; $i<count($action->restaurateurs); $i++)
-					{	
-						echo "<option value=".$action->restaurateurs[$i]["ID_RESTAURATEUR"].">".$action->restaurateurs[$i]["PRENOM"]." ".$action->restaurateurs[$i]["NOM"]."</option>";
-					}	
-				 ?>
-				</select>
-				<button type="submit" id="bSupprimerR" name="bAjoutR">Supprimer!</button>
-			</form>
-
-		</div>
-	<?php 
-}
+		<?php 
+		}
+	}
+	if (isset($_GET["suppExec"])){
 	?>
+	<h2> ** La suppresion a ete faite avec succes!! </h2>
 </div>
 
 <?php 
+}
 require_once("partials/footer.php");
  ?>
