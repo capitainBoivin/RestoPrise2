@@ -59,7 +59,6 @@
 
 	//Suppression d'un restaurateur
 		public static function supprimerRestaurateur($id){
-			echo "ici";
 			$connection = Connection::getConnection();
 			$statement = $connection->prepare("DELETE FROM RESTAURATEUR WHERE ID_RESTAURATEUR = ?");
 			$statement->bindParam(1, $id);
@@ -71,5 +70,16 @@
 			catch(PDOException $e) {
     			var_dump($e->getMessage());
 				}
+		}
+	//Modification d'un restaurateur
+		public static function modifRestaurateur($id,$tel,$courriel,$resto){
+			$connection = Connection::getConnection();
+			$statement = $connection->prepare("UPDATE RESTAURATEUR SET COURRIEL = ?, TELEPHONE = ?, ID_RESTAURANT = ? WHERE ID_RESTAURATEUR = ?");
+			$statement->bindParam(1, $courriel);
+			$statement->bindParam(2, $tel);
+			$statement->bindParam(3, $resto);
+			$statement->bindParam(4, $id);
+
+			$statement->execute();
 		}
 	}

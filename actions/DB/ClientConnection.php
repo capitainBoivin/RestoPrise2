@@ -35,10 +35,7 @@
     		}
 		}
 		//Modifier les infos dun client dans la BD
-		public static function modifClient($id,$adresse,$tel,$mdp){
-			echo $id;
-			echo $tel;
-			echo $adresse;			
+		public static function modifClient($id,$adresse,$tel,$mdp){		
 			$connection = Connection::getConnection();
 			$statement = $connection->prepare("UPDATE CLIENT SET ADRESSE = ?, TELEPHONE = ?, MDP = ? WHERE ID_CLIENT = ?");
 			$statement->bindParam(1, $adresse);

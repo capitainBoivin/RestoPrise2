@@ -4,6 +4,7 @@
 	require_once("actions/DB/CommonConnection.php");
 	class restaurateurAction extends CommonAction{
 		public $restaurateurs;
+		public $restaurateur;
 		public $restaurants;
 		public $entrepreneur;
 		public $result;
@@ -12,9 +13,16 @@
 		}
 
 		public function executeAction() {
-
 		// On va chercher la liste des restaurateurs et la liste des restaurants
 			$this->restaurateurs = RestaurateurConnection::getRestaurateurs(1);
+		//Si un restaurateur est selectionne
+			if (isset($_GET["modif"])){
+				for ($i=0;$i<count($this->restaurateurs);$i++){
+					if ($this->restaurateurs[$i]["ID_RESTAURATEUR"] == $_GET["modif"]){
+						$this->restaurateur = $this->restaurateurs[$i];
+					}
+				}
+			}
 			$this->restaurants = RestaurateurConnection::getRestaurants(1);
 		// Si le bouton ajouter un restaurateur a été pressé
 			if (isset($_POST["bAjoutR"]))
@@ -54,19 +62,42 @@
 					header("Location:restaurateur.php?confirmationAjout=true");
 				}
 			}
+			// Si le bouton de modif un restaurateur
+			if (isset($_POST["bModifierR"]))
+			{ 
+				if(!empty($_POST["tel"])){
+					$tel = $_POST["tel"];
+				}
 
+				if(!empty($_POST["courriel"])){
+					$courriel = $_POST["courriel"];
+				}
+				if(!empty($_POST["resto"])){
+					$resto = $_POST["resto"];
+				}
+				$id = $_POST["bModifierR"];
+				RestaurateurConnection::ModifRestaurateur($id,$tel,$courriel,$resto);
+				header("Location:restaurateur.php?modif=".$_POST["bModifierR"]."&confirmerModif=".$_POST["bModifierR"]);
+			}
 			// Si le bouton supprimer un restaurateur a été pressé
-			if (isset($_POST["bSupprimerR"]))
+			else if (isset($_POST["bSupprimerR"]))
 			{  
 				header("Location:restaurateur.php?supp=true&confirmationSupp=".$_POST["restaurateurid"]);
 			}
-			
+
 			// Si le bouton de confirmation de la suppression a ete presser
-			if (isset($_POST["bConfirmerSupp"]))
+			else if (isset($_POST["bConfirmerSupp"]))
 			{  
 				$idRestaurateur = $_POST["bConfirmerSupp"];
 				RestaurateurConnection::SupprimerRestaurateur($idRestaurateur);
 				header("Location:restaurateur.php?suppExec=true");
+			}
+
+			// Si le bouton de gestion des restaurateurs
+			else if (isset($_POST["bGererR"]))
+			{  
+				
+				header("Location:restaurateur.php?modif=".$_POST["restaurateurid"]);
 			}
 		}
 	}
