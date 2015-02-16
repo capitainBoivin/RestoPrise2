@@ -1,36 +1,59 @@
 <?php
+	require_once("actions/CommonAction.php");
+	require_once("Connection.php");
 
-	class Connection {
+	class RestaurateurConnection{
 		private static $connection;
-
-		public static function getConnection() {
-			if (Connection::$connection == null) 
-			{
-				$dsn = 'mysql:host=167.114.98.22;dbname=RESTO';
-				$username = 'Catherine';
-				$password = 'AAAaaa111';
-				$options = array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8');
-
-				try
-				{
-					Connection::$connection = new PDO($dsn, $username, $password, $options);
-					Connection::$connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-					Connection::$connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
-				}
-				catch(PDOException $e)
-				{
-					echo $e->getMessage();
-				}
-				
+		//Inserer un nouveau client dans la BD
+		public static function insertRestaurateur($nom,$prenom,$tel,$courriel,$mdp,$resto) {
+		echo ("dans le restaurateur");	
+			$connection = Connection::getConnection();
+			$statement = $connection->prepare("INSERT INTO RESTAURATEUR(ID_ENTREPRENEUR,NOM,PRENOM,TELEPHONE,COURRIEL,MDP,ID_RESTAURANT) VALUES (1,?,?,?,?,?,?)");
+			$statement->bindParam(1, $nom);
+			$statement->bindParam(2, $prenom);
+			$statement->bindParam(3, $tel);
+			$statement->bindParam(4, $courriel);
+			$statement->bindParam(5, $mdp);
+			$statement->bindParam(6, $resto);
+			try{
+				$statement->execute();
 			}
-
-			return Connection::$connection;
-		}
-
-		public static function closeConnection() {
-			if (Connection::$connection != null) {
-				Connection::$connection = null;
-			}
-		}
+			catch(PDOException $e) {
+    			var_dump($e->getMessage());
+				}
 	}
 
+	//Verifier si le courriel existe deja dans la BD
+		public static function verifCourriel($courriel){
+			$connection = Connection::getConnection();
+			$statement = $connection->prepare("SELECT * FROM RESTAURATEUR WHERE COURRIEL = ?");
+			$statement->bindParam(1, $courriel);
+		 	$statement->setFetchMode(PDO::FETCH_ASSOC);
+		 	$statement->execute();
+
+		 	$info = $statement->fetch();
+		 	return $info;
+		}
+	//On prend tout les restaurateurs lies a l,entrepreneur connecte
+		public static function getRestaurateurs($id){
+			$connection = Connection::getConnection();
+			$statement = $connection->prepare("SELECT * FROM RESTAURATEUR WHERE ID_ENTREPRENEUR = ?");
+			$statement->bindParam(1, $id);
+		 	$statement->setFetchMode(PDO::FETCH_ASSOC);
+		 	$statement->execute();
+
+		 	$info = $statement->fetchAll();
+		 	return $info;
+		}
+	//On prend tout les restaurants lie a lentrepreneur connecte
+		public static function getRestaurants($id){
+			$connection = Connection::getConnection();
+			$statement = $connection->prepare("SELECT * FROM RESTAURANT WHERE ID_ENTREPRENEUR = ?");
+			$statement->bindParam(1, $id);
+		 	$statement->setFetchMode(PDO::FETCH_ASSOC);
+		 	$statement->execute();
+
+		 	$info = $statement->fetchAll();
+		 	return $info;
+		}
+	}

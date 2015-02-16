@@ -41,7 +41,7 @@
 				}
 				//On verifie sur le courriel existe deja dans la BD
 				$existe = ClientConnection::verifCourriel($courriel);
-				if ($existe=!null)
+				if ($existe==true)
 				{
 					header("Location:client.php?courriel=true");
 				}

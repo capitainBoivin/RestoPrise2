@@ -14,6 +14,8 @@
 		 	$statement->execute();
 
 		 	$info = $statement->fetchAll();
+
 		 	return $info;
+
 		}
 	}

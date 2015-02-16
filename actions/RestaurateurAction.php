@@ -1,84 +1,64 @@
 <?php
 	require_once("CommonAction.php");
-	require_once("actions/DB/ClientConnection.php");
+	require_once("actions/DB/RestaurateurConnection.php");
 	require_once("actions/DB/CommonConnection.php");
-	class ClientAction extends CommonAction{
-		public $client;
+	class restaurateurAction extends CommonAction{
+		public $restaurateurs;
+		public $restaurants;
+		public $entrepreneur;
 		public $result;
 		public function __construct() {
-			parent::__construct(CommonAction::$VISIBILITY_PUBLIC);
+			parent::__construct(CommonAction::$VISIBILITY_ENTREPRENEUR);
 		}
 
 		public function executeAction() {
-			//Si le client est deja connecte, on affiche ses infos
-			if (isset($_SESSION["client_id"]))
-				{
-					$this->getClient();
-				}
-			//Si le formulaire dajout de client est rempli et si le bouton a ete pese
-			if (isset($_POST["bAjoutC"]))
-			{  echo "dans le creation de client";
+
+		// On va chercher la liste des restaurateurs et la liste des restaurants
+			$this->restaurateurs = RestaurateurConnection::getRestaurateurs(1);
+			$this->restaurants = RestaurateurConnection::getRestaurants(1);
+		// Si le bouton ajouter un restaurateur a été pressé
+			if (isset($_POST["bAjoutR"]))
+			{  
 				if(!empty($_POST["nom"])){
 					$nom = $_POST["nom"];
 				}
 				if(!empty($_POST["prenom"])){
 					$prenom = $_POST["prenom"];
 				}
-				if(!empty($_POST["adresse"])){
-					$adresse = $_POST["adresse"];
-				}
+
 				if(!empty($_POST["tel"])){
 					$tel = $_POST["tel"];
 				}
-				if(!empty($_POST["annee"])){
-					$dateNaissance = $_POST["annee"]."-".$_POST["mois"]."-".$_POST["jour"];
-				}
+
 				if(!empty($_POST["courriel"])){
 					$courriel = $_POST["courriel"];
 				}
 				if(!empty($_POST["mdp"])){
 					$mdp = $_POST["mdp"];
 				}
+				if(!empty($_POST["resto"])){
+					$resto = $_POST["resto"];
+				}
 				//On verifie sur le courriel existe deja dans la BD
-				$existe = ClientConnection::verifCourriel($courriel);
-				if ($existe=!null)
+				$existe = RestaurateurConnection::verifCourriel($courriel);
+				if ($existe==true)
 				{
-					header("Location:client.php?courriel=true");
+					$_SESSION["client_id"] = 1;
+					$_SESSION["visibility"] = CommonAction::$VISIBILITY_ADMIN;
+					$_SESSION["nom"] = "JOHN LENTREPRENEUR";
+
+					header("Location:restaurateur.php?courriel=true");
 				}
 				else {
-					//Pour faire le logg in du client apres qu'il se soit inscrit
-					ClientConnection::insertClient($nom,$prenom,$adresse,$tel,$dateNaissance,$courriel,$mdp);
-					$this->result = CommonConnection::loginUser($courriel,$mdp);
-						if($this->result)
-						{
-							$_SESSION["client_id"] = $this->result[0]["ID_CLIENT"];
-							$_SESSION["visibility"] = CommonAction::$VISIBILITY_MEMBER;
-							$_SESSION["nom"] = $this->result[0]["PRENOM"];
-						}
-					//On va creer le compte
-					ClientConnection::insertCompte($_SESSION["client_id"]);
-					header("Location:client.php?confirmation=true");
+					RestaurateurConnection::InsertRestaurateur($nom,$prenom,$tel,$courriel,$mdp,$resto);
+					header("Location:restaurateur.php?confirmationAjout=true");
 				}
 			}
-			//Si le bouton de modification de client isset
-			if (isset($_POST["bModifC"]))
+
+			// Si le bouton ajouter un restaurateur a été pressé
+			if (isset($_POST["bSupprimerR"]))
 			{  
-				if(!empty($_POST["adresse"])){
-					$adresse = $_POST["adresse"];
-				}
-				if(!empty($_POST["tel"])){
-					$tel = $_POST["tel"];
-				}
-				if(!empty($_POST["mdp"])){
-					$mdp = $_POST["mdp"];
-				}
-				//Pour faire le logg in du client apres qu'il se soit inscrit
-				ClientConnection::modifClient($_SESSION["client_id"],$adresse,$tel,$mdp);
-				header("Location:client.php?confirmation=true");
+				header("Location:restaurateur.php?supp=true?confirmationSupp=true");
 			}
 		}
-			//Aller chercher le nom du client
-			public function getClient() {
-				$this->client = ClientConnection::getClient($_SESSION["client_id"]);
-			}
-		}
+	}

@@ -6,7 +6,8 @@
 	abstract class CommonAction {
 		public static $VISIBILITY_PUBLIC = 0;
 		public static $VISIBILITY_MEMBER = 1;
-		public static $VISIBILITY_ADMIN = 2;
+		public static $VISIBILITY_RESTAURATEUR = 2;
+		public static $VISIBILITY_ENTREPRENEUR = 3;
 
 		private $pageVisibility;
 
@@ -21,7 +22,7 @@
 					if($this->result)
 					{
 						$_SESSION["client_id"] = $this->result[0]["ID_CLIENT"];
-						$_SESSION["visibility"] = CommonAction::$VISIBILITY_MEMBER;
+						$_SESSION["visibility"] =$this->result[0]["VISIBILITE"];
 						$_SESSION["nom"] = $this->result[0]["PRENOM"];
 					}
 					
