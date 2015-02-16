@@ -5,8 +5,7 @@
 	class RestaurateurConnection{
 		private static $connection;
 		//Inserer un nouveau client dans la BD
-		public static function insertRestaurateur($nom,$prenom,$tel,$courriel,$mdp,$resto) {
-		echo ("dans le restaurateur");	
+		public static function ajoutRestaurateur($nom,$prenom,$tel,$courriel,$mdp,$resto) {	
 			$connection = Connection::getConnection();
 			$statement = $connection->prepare("INSERT INTO RESTAURATEUR(ID_ENTREPRENEUR,NOM,PRENOM,TELEPHONE,COURRIEL,MDP,ID_RESTAURANT) VALUES (1,?,?,?,?,?,?)");
 			$statement->bindParam(1, $nom);
@@ -35,7 +34,7 @@
 		 	return $info;
 		}
 	//On prend tout les restaurateurs lies a l,entrepreneur connecte
-		public static function getRestaurateurs($id){
+		public static function getAllForEntrepreneur($id){
 			$connection = Connection::getConnection();
 			$statement = $connection->prepare("SELECT * FROM RESTAURATEUR WHERE ID_ENTREPRENEUR = ?");
 			$statement->bindParam(1, $id);

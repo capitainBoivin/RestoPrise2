@@ -14,7 +14,7 @@
 
 		public function executeAction() {
 		// On va chercher la liste des restaurateurs et la liste des restaurants
-			$this->restaurateurs = RestaurateurConnection::getRestaurateurs(1);
+			$this->restaurateurs = RestaurateurConnection::getAllForEntrepreneur(1);
 		//Si un restaurateur est selectionne
 			if (isset($_GET["modif"])){
 				for ($i=0;$i<count($this->restaurateurs);$i++){
@@ -58,7 +58,7 @@
 					header("Location:restaurateur.php?courriel=true");
 				}
 				else {
-					RestaurateurConnection::InsertRestaurateur($nom,$prenom,$tel,$courriel,$mdp,$resto);
+					RestaurateurConnection::AjoutRestaurateur($nom,$prenom,$tel,$courriel,$mdp,$resto);
 					header("Location:restaurateur.php?confirmationAjout=true");
 				}
 			}
@@ -98,6 +98,13 @@
 			{  
 				
 				header("Location:restaurateur.php?modif=".$_POST["restaurateurid"]);
+			}
+
+			// Si le bouton de gestion des restaurateurs
+			else if (isset($_POST["bConfirmerModif"]))
+			{  
+				
+				header("Location:restaurateur.php?modifDone=true");
 			}
 		}
 	}

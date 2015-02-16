@@ -13,7 +13,7 @@ require_once("partials/header.php");
 		 <?php 
 		 	if (isset($_GET["confirmationAjout"])){
 		  ?>
-		  <h2> ** L'ajout a ete fait avec succes!!! **</h2>
+		  <h2> ** L'ajout a été fait avec succès!!! **</h2>
 		 <?php
 		  }
 		 if (isset($_GET["ajout"])){
@@ -33,7 +33,7 @@ require_once("partials/header.php");
 						<input id="prenom" name="prenom" size="45"/>
 					</div>
 					<div class="label">
-						<label for="tel"> Numero de telephone : </label>
+						<label for="tel"> Numéro de téléphone : </label>
 					</div>
 					<div class="champ">
 						<input id="tel" name="tel" size="25"/>
@@ -42,6 +42,7 @@ require_once("partials/header.php");
 						<label for="dateNaissance"> Restaurant auquel ce restaurateur est lie : </label>
 					</div>
 						<select class="combo" name="resto">
+							<option value=""> </option>
 						<?php 
 							for($i=0; $i<count($action->restaurants); $i++)
 							{	
@@ -112,7 +113,7 @@ require_once("partials/header.php");
 	}
 	if (isset($_GET["suppExec"])){
 	?>
-	<h2> ** La suppresion a ete faite avec succes!! </h2>
+	<h2> ** La suppresion a été faite avec succès!! </h2>
 	<?php
 	 }
 	if (isset($_GET["gerer"])){
@@ -148,13 +149,13 @@ require_once("partials/header.php");
 						<label for="name">  <?php echo $action->restaurateur['PRENOM'] ?> </label>
 					</div>
 					<div class="label">
-						<label for="tel"> Numero de telephone : </label>
+						<label for="tel"> Numéro de téléphone : </label>
 					</div>
 					<div class="label">
 						<label for="tel"> <?php echo $action->restaurateur['TELEPHONE'] ?> </label>
 					</div>
 					<div class="label">
-						<label for="dateNaissance"> Restaurant auquel ce restaurateur est lie : </label>
+						<label for="dateNaissance"> Restaurant auquel ce restaurateur est lié : </label>
 					</div>
 						<select class="combo" name="resto">
 						<?php 
@@ -207,18 +208,20 @@ require_once("partials/header.php");
 						<label for="name">  <?php echo $action->restaurateur['PRENOM'] ?> </label>
 					</div>
 					<div class="label">
-						<label for="tel"> Numero de telephone : </label>
+						<label for="tel"> Numéro de téléphone : </label>
 					</div>
 					<div class="champ">
 						<input id="tel" name="tel" size="25" value="<?php echo $action->restaurateur['TELEPHONE'] ?>"/>
 					</div>
 					<div class="label">
-						<label for="dateNaissance"> Restaurant auquel ce restaurateur est lie : </label>
+						<label for="dateNaissance"> Restaurant auquel ce restaurateur est lié : </label>
 					</div>
 						<select class="combo" name="resto">
+						<option value="" selected='selected'></option>
 						<?php 
 							for($i=0; $i<count($action->restaurants); $i++)
 							{	
+
 								if ($action->restaurants[$i]["ID_RESTAURANT"] == $action->restaurateur['ID_RESTAURANT'] ){
 									echo "<option value=".$action->restaurants[$i]["ID_RESTAURANT"]." selected='selected'>".$action->restaurants[$i]["NOM"]."</option>";
 								}
@@ -237,6 +240,11 @@ require_once("partials/header.php");
 					<button type="submit" id="bAjoutR" name="bModifierR" value="<?php echo $action->restaurateur['ID_RESTAURATEUR'] ?>" >Modifier!</button>
 				</form>
 			<?php
+			}
+			else if (isset($_GET["modifDone"])){
+				?>
+				<h2> *** La modification a été complétée avec succès ***</h2>
+				<?php 
 			}
 			?>
 
